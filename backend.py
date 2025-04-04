@@ -1,12 +1,15 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import requests
 
-app = Flask("wingX")
+app = Flask("wingX", template_folder="templates")
 
-# Directly set the API key for testing
 GROQ_API_KEY = "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"
 GROQ_API_URL = "https://api.groq.com/v1/chat/completions"
+
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route("/api/getAnswer", methods=["POST"])
 def get_answer():
@@ -36,4 +39,4 @@ def get_answer():
         return jsonify({"answer": "Error connecting to API."}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000, debug=True)
